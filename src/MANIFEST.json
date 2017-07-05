@@ -1,0 +1,5 @@
+{
+  "$DATAPATH": "../GameData",
+  "$DIRLIST": ["01_General", "02_Characters", "03_Skills", "04_Items", "05_Story", "06_Quests"],
+  "$TEMP_INFO": {"$RP_NAME": "Just another RP", "$RP_AUTHOR": "a Person"}
+}

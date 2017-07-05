@@ -1,22 +1,73 @@
 # Copyright Bendodroid [2017]
 
+
 import socket
 import threading
 import queue
+import tc
 
-from tc import align_string
+from FileHandler import *
+from pprint import pprint
 
 
 def main():
-    pass
+    # Create header
+    tc.create_header("RP-API by Bendodroid  -  Server Version", clearterm=True)
+
+    # Start Server
+
+    server = ServerNetworkConnector()
+
+    nclients = int(input(tc.align_string("How many clients are allowed?: ", 3)))
+
+    # Server-Info
+    print("\n")
+    tc.create_infobox("Server-Info", "~", 3, False)
+    print("\n" + tc.align_string("Server-Address: ", 3) + str(server.host))
+    print(tc.align_string("Server-Port: ", 3) + str(server.port) + "\n\n")
+
+    while True:
+        if len(server.conns) == nclients:
+            server.broadcast(json.dumps({"$ALL_CONN": True}))
+            break
+
+    print(server.conns)
+
+    for i in range(nclients):
+        msg = server.get_next_message_obj()
+        server.match_ip(msg)
+
+    server.match_conns()
+    pprint(server.ip_name_match, indent=2)
+    pprint(server.name_ip_match, indent=2)
+
+    # print(tc.align_string("Starting relay...", 3))
+    # while True:
+    #     msg = server.get_next_message_obj()
+    #     msgobj = json.loads(msg[0])
+    #     print("   ", msg)
+    #     if msgobj["@RECIPIENT"] is not "@ALL":
+    #         if msgobj["@RECIPIENT"] == "@SERVER":
+    #             if msgobj["$TYPE"] == "$IP_MATCHES":
+    #                 server.ip_name_match = msgobj["$IP_MATCHES"]
+    #                 server.match_conns()
+    #         else:
+    #             server.send(msg[0], msgobj["@RECIPIENT"])
+    #     else:
+    #         server.relay(msgobj)
+
+
+###
 
 
 class ServerNetworkConnector:
+    ip_name_match = dict()
+    name_ip_match = dict()
 
     def __init__(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.host = input(align_string("Enter your IP: ", 3))
-        self.port = int(input(align_string("Enter a port: ", 3)))
+        self.host = input(tc.align_string("Enter your IP: ", 3))
+        self.port = int(input(tc.align_string("Enter a port: ", 3)))
         self.sock.bind((self.host, self.port))
         self.sock.listen(5)
         self.conns = []
@@ -57,3 +108,15 @@ class ServerNetworkConnector:
 
     def get_next_message_obj(self):
         return self.messageObjQueue.get()
+
+    def send(self, msg, dest):
+        pass
+
+    def match_ip(self, msg):
+        self.ip_name_match[msg[1][0]] = json.loads(msg[0])["$NAME"]
+
+    def match_conns(self):
+        for key, value in self.ip_name_match.items():
+            self.name_ip_match[value] = key
+
+main()

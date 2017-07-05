@@ -60,20 +60,22 @@ def client_startup():
         except json.JSONDecodeError:
             pass
 
-    if client.gm is True:
-        basics = FileHandler.loadbasics()
-        basics["$GAMEMASTER"] = client.real_name
-        input(tc.align_string("Press ENTER to send basic information..."))
-        client.sendmessage(json.dumps(basics, ensure_ascii=False))
-        input(tc.align_string("Press ENTER to reload...", 3))
-        reload_ui(basics=basics)
-    elif client.gm is False:
-        basics = json.loads(client.receivemessage())
-        print(tc.align_string("Received basic Information", 3))
-        input(tc.align_string("Press ENTER to reload...", 3))
-        reload_ui(basics=basics)
+    client.sendmessage(json.dumps({"$NAME": client.real_name}))
 
-    return client
+    # if client.gm is True:
+    #     basics = FileHandler.loadbasics()
+    #     basics["$GAMEMASTER"] = client.real_name
+    #     input(tc.align_string("Press ENTER to send basic information..."))
+    #     client.sendmessage(json.dumps(basics, ensure_ascii=False))
+    #     input(tc.align_string("Press ENTER to reload...", 3))
+    #     reload_ui(basics=basics)
+    # elif client.gm is False:
+    #     basics = json.loads(client.receivemessage())
+    #     print(tc.align_string("Received basic Information", 3))
+    #     input(tc.align_string("Press ENTER to reload...", 3))
+    #     reload_ui(basics=basics)
+    #
+    # return client
 
 
 def reload_ui(basics: dict):

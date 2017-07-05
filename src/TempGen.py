@@ -35,3 +35,5 @@ def createtemplates():
         createfiletemplate(folder=i)
     createfiletemplate("01_General", "MAIN.json",
                        json.dumps(loaddetailfromfile("./MANIFEST.json", "$TEMP_INFO"), indent=2))
+
+createtemplates()
