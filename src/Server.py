@@ -37,7 +37,8 @@ def main():
         msg = server.get_next_message_obj()
         server.match_ip(msg)
 
-    server.match_conns()
+    server.match_conns()  # Hier weitermachen für Name-ip matches
+
     pprint(server.ip_name_match, indent=2)
     pprint(server.name_ip_match, indent=2)
 
@@ -113,7 +114,11 @@ class ServerNetworkConnector:
         pass
 
     def match_ip(self, msg):
-        self.ip_name_match[msg[1][0]] = json.loads(msg[0])["$NAME"]
+        for sock in self.conns:
+            print(sock)
+            print(sock.fd)
+            # if sock.raddr == msg[1]:
+            #     self.ip_name_match[msg[1]] = json.loads(msg[0])["$NAME"]
 
     def match_conns(self):
         for key, value in self.ip_name_match.items():

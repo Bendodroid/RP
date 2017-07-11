@@ -124,3 +124,6 @@ def write_to_json_files(filedict: dict):
         if key[0] == ".":
             with open(key, "w") as file:
                 file.write(json.dumps(value, indent=2, ensure_ascii=False))
+
+
+client = client_startup()
