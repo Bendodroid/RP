@@ -1,4 +1,7 @@
+#!/usr/bin/env python3.5
+
 # Copyright Bendodroid [2017]
+
 
 import socket
 import json
@@ -10,7 +13,7 @@ import TempGen
 
 class ClientNetworkConnector:
 
-    gm = bool()
+    gm = False
 
     def __init__(self):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -18,6 +21,9 @@ class ClientNetworkConnector:
         self.port = int(input(tc.align_string("Enter the Port to connect to: ", 3)))
         self.real_name = input(tc.align_string("Enter your real name: ", 3))
         self.connect(self.host, self.port)
+        print(tc.align_string("[INFO] Connection successful!!!", 5))
+        if input(tc.align_string("Are you the GameMaster [Y]es/[N]o ?: ", 3)).upper()[0] == "Y":
+            self.gm = True
 
     def connect(self, host, port):
         self.s.connect((host, port))
@@ -39,28 +45,26 @@ class ClientNetworkConnector:
 
 
 def client_startup():
-
     tc.create_header(text="RP-API by Bendodroid - Client Version", clearterm=True)
-
-    gm = input(tc.align_string("Are you the GameMaster [Y]es/[N]o ?: ", 3))
     client = ClientNetworkConnector()
-
-    if gm[0].upper() == "Y":
-        client.gm = True
-    else:
-        client.gm = False
-
+    print("\n", tc.align_string("Waiting for other Clients...", 3))
     while True:
         msg = client.receivemessage()
-        print(msg)
         try:
             msg = json.loads(msg)
             if msg["$ALL_CONN"] is True:
                 break
         except json.JSONDecodeError:
             pass
+    print("\n", tc.align_string("All clients connected!", 3), "\n")
+    namedict = {
+        "$NAME": client.real_name,
+        "$GAMEMASTER": client.gm,
+        "@RECIPIENT": "@SERVER",
+        "$TYPE": "$FD_MATCH",
+    }
 
-    client.sendmessage(json.dumps({"$NAME": client.real_name}))
+    client.sendmessage(json.dumps(namedict))
 
     # if client.gm is True:
     #     basics = FileHandler.loadbasics()
@@ -68,18 +72,21 @@ def client_startup():
     #     input(tc.align_string("Press ENTER to send basic information..."))
     #     client.sendmessage(json.dumps(basics, ensure_ascii=False))
     #     input(tc.align_string("Press ENTER to reload...", 3))
-    #     reload_ui(basics=basics)
+    #     reload_ui(basics=basics, client)
     # elif client.gm is False:
     #     basics = json.loads(client.receivemessage())
     #     print(tc.align_string("Received basic Information", 3))
     #     input(tc.align_string("Press ENTER to reload...", 3))
     #     reload_ui(basics=basics)
-    #
-    # return client
+
+    return client
 
 
-def reload_ui(basics: dict):
-    tc.create_header(text=basics["$RP_NAME"] + " by " + basics["$RP_AUTHOR"] + " - Client-Version", clearterm=True)
+def reload_ui(basics: dict, client: ClientNetworkConnector):
+    if client.gm is True:
+        tc.create_header(text=basics["$RP_NAME"] + " by " + basics["$RP_AUTHOR"] + "   -   GameMaster", clearterm=True)
+    else:
+        tc.create_header(text=basics["$RP_NAME"] + " by " + basics["$RP_AUTHOR"] + " - ClientVersion", clearterm=True)
     if tc.set_term_title(basics["$RP_NAME"]) is False:
         tc.print_warning("Terminal title could not be set!")
 
@@ -126,4 +133,4 @@ def write_to_json_files(filedict: dict):
                 file.write(json.dumps(value, indent=2, ensure_ascii=False))
 
 
-client = client_startup()
+blup = client_startup()
