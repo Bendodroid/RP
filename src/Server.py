@@ -19,25 +19,26 @@ class ServerNetworkConnector:
     conn = None
     addr = None
     start_receive_thread = None
+    gamemaster = None
 
-    def __init__(self, nclients):
+    def __init__(self):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.nclients = int(input(tc.align_string("How many clients are allowed?: ", 3)))
         self.host = input(tc.align_string("Enter your IP: ", 3))
         self.port = int(input(tc.align_string("Enter a port: ", 3)))
         self.sock.bind((self.host, self.port))
         self.sock.listen(5)
         self.conns = []
         self.messageObjQueue = queue.Queue()
-        self.start_client_thread = threading.Thread(target=self.acceptclients(nclients))
+        self.start_client_thread = threading.Thread(target=self.acceptclients(self.nclients))
         self.start_client_thread.setDaemon(True)
         self.start_client_thread.start()
 
     def acceptclients(self, nclients: int):
-        while True:
-            if len(self.conns) < nclients:
+        while len(self.conns) < nclients:
                 self.conn, self.addr = self.sock.accept()
                 self.conns.append(self.conn)
-                self.start_receive_thread = threading.Thread(target=self.receive, args=self.conn)
+                self.start_receive_thread = threading.Thread(target=self.receive, args=(self.conn,))
                 self.start_receive_thread.setDaemon(True)
                 self.start_receive_thread.start()
 
@@ -75,6 +76,8 @@ class ServerNetworkConnector:
         for sock in self.conns:
             if sock.fileno() == msg[2].fileno():
                 self.fd_name_match[msg[2].fileno()] = json.loads(msg[0])["$NAME"]
+                if json.loads(msg[0])["$GAMEMASTER"] is True and self.gamemaster is None:
+                    self.gamemaster = sock.fileno()
 
     def rev_fd_list(self):
         for key, value in self.fd_name_match.items():
@@ -84,6 +87,7 @@ class ServerNetworkConnector:
         self.clientinfo = {
             "fd_name_match": self.fd_name_match,
             "name_fd_match": self.name_fd_match,
+            "gamemaster": self.fd_name_match[self.gamemaster],
         }
         self.broadcast(json.dumps(self.clientinfo))
 
@@ -93,8 +97,7 @@ def main():
     tc.create_header("RP-API by Bendodroid  -  Server Version", clearterm=True)
 
     # Start Server
-    nclients = int(input(tc.align_string("How many clients are allowed?: ", 3)))
-    server = ServerNetworkConnector(nclients)
+    server = ServerNetworkConnector()
 
     # Server-Info
     print("\n")
@@ -104,29 +107,28 @@ def main():
 
     # Waiting for clients
     while True:
-        if len(server.conns) == nclients:
+        if len(server.conns) == server.nclients:
             server.broadcast(json.dumps({"$ALL_CONN": True}))
             break
-
-    print(server.conns)  # Kontrolle
 
     # Starting relay
     while True:
         msgobj = server.get_next_message_obj()
-        msg = json.loads(msgobj[0])
-        print("   ", msgobj)
-        if msg["@RECIPIENT"] is not "@ALL":
-            if msg["@RECIPIENT"] == "@SERVER":
-                if msg["$TYPE"] == "$FD_MATCH" and len(server.fd_name_match) < nclients:
-                    server.match_fd(msgobj)
-                if len(server.fd_name_match) == nclients and server.cl_inf_broad is False:
-                    server.rev_fd_list()
-                    server.dist_client_info()
-                    server.cl_inf_broad = True
+        try:
+            msg = json.loads(msgobj[0])
+            print("   ", msgobj)
+            if msg["$RECIPIENT"] != "ALL":
+                if msg["$RECIPIENT"] == "SERVER":
+                    if msg["$TYPE"] == "FD_MATCH" and len(server.fd_name_match) < server.nclients:
+                        server.match_fd(msgobj)
+                    if len(server.fd_name_match) == server.nclients and server.cl_inf_broad is False:
+                        server.rev_fd_list()
+                        server.dist_client_info()
+                        server.cl_inf_broad = True
             else:
-                server.send(msg, msgobj["@RECIPIENT"])
-        else:
-            server.relay(msgobj)
+                server.relay(msgobj)
+        except json.JSONDecodeError:
+            pass
 
 
 main()

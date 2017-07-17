@@ -52,11 +52,11 @@ def set_term_title(msg: str):
 
 
 def print_warning(msg: str):
-    print("\n[WARNING]   " + msg + "\n")
+    print("\n   [WARNING]   " + msg + "\n")
 
 
-def print_message(msg: str):
-    print(align_string("\n[MESSAGE]   " + msg + "\n", 5))
+def print_message(msg: str, label: str):
+    return str("\n   [" + label + "] " + msg + "\n")
 
 
 def create_infobox(msg: str, border: str="~", position: int=5, clearterm: bool=False):

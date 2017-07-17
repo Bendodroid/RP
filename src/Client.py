@@ -14,6 +14,8 @@ import TempGen
 class ClientNetworkConnector:
 
     gm = False
+    peers = []
+    gm_peer = str()
 
     def __init__(self):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -21,7 +23,7 @@ class ClientNetworkConnector:
         self.port = int(input(tc.align_string("Enter the Port to connect to: ", 3)))
         self.real_name = input(tc.align_string("Enter your real name: ", 3))
         self.connect(self.host, self.port)
-        print(tc.align_string("[INFO] Connection successful!!!", 5))
+        print(tc.print_message("Connection successful!!!", "INFO"))
         if input(tc.align_string("Are you the GameMaster [Y]es/[N]o ?: ", 3)).upper()[0] == "Y":
             self.gm = True
 
@@ -56,35 +58,46 @@ def client_startup():
                 break
         except json.JSONDecodeError:
             pass
+
     print("\n", tc.align_string("All clients connected!", 3), "\n")
     namedict = {
         "$NAME": client.real_name,
         "$GAMEMASTER": client.gm,
-        "@RECIPIENT": "@SERVER",
-        "$TYPE": "$FD_MATCH",
+        "$RECIPIENT": "SERVER",
+        "$TYPE": "FD_MATCH",
     }
 
+    # Send Info
     client.sendmessage(json.dumps(namedict))
 
-    # if client.gm is True:
-    #     basics = FileHandler.loadbasics()
-    #     basics["$GAMEMASTER"] = client.real_name
-    #     input(tc.align_string("Press ENTER to send basic information..."))
-    #     client.sendmessage(json.dumps(basics, ensure_ascii=False))
-    #     input(tc.align_string("Press ENTER to reload...", 3))
-    #     reload_ui(basics=basics, client)
-    # elif client.gm is False:
-    #     basics = json.loads(client.receivemessage())
-    #     print(tc.align_string("Received basic Information", 3))
-    #     input(tc.align_string("Press ENTER to reload...", 3))
-    #     reload_ui(basics=basics)
+    # Receive Info on other Clients
+    print(tc.print_message("Waiting for information on other peers...", "INFO"))
+    peerinfo = json.loads(client.receivemessage())
+    client.peers = []
+    for key, value in peerinfo["name_fd_match"].items():
+        client.peers.append(key)
+    client.gm_peer = peerinfo["gamemaster"]
+    print(tc.print_message("Successful...", "INFO"))
+
+    if client.gm is True:
+        basics = FileHandler.loadbasics()
+        input(tc.print_message("Press ENTER to send basic information...", "INFO"))
+        client.sendmessage(json.dumps(basics, ensure_ascii=False))
+        input(tc.print_message("Press ENTER to reload...", "INFO"))
+        reload_ui(basics=basics, client=client)
+    elif client.gm is False:
+        print(tc.print_message("Waiting for basic information", "INFO"))
+        basics = json.loads(client.receivemessage())
+        print(tc.print_message("Received basic Information", "INFO"))
+        input(tc.print_message("Press ENTER to reload...", "INFO"))
+        reload_ui(basics=basics, client=client)
 
     return client
 
 
 def reload_ui(basics: dict, client: ClientNetworkConnector):
     if client.gm is True:
-        tc.create_header(text=basics["$RP_NAME"] + " by " + basics["$RP_AUTHOR"] + "   -   GameMaster", clearterm=True)
+        tc.create_header(text=basics["$RP_NAME"] + " by " + basics["$RP_AUTHOR"] + " - GameMaster", clearterm=True)
     else:
         tc.create_header(text=basics["$RP_NAME"] + " by " + basics["$RP_AUTHOR"] + " - ClientVersion", clearterm=True)
     if tc.set_term_title(basics["$RP_NAME"]) is False:
