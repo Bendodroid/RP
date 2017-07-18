@@ -19,7 +19,7 @@ def loaddetailfromfile(file: str, identifier):
         return obj[identifier]
 
 
-def createjsonfile(file: str, obj):
+def createjsonfile(file: str, obj: object):
     with open(file, "w") as f:
         f.write(json.dumps(obj, ensure_ascii=False, indent=4))
 

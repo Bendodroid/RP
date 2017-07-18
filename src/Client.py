@@ -116,6 +116,7 @@ def dist_rec_game_files(client: ClientNetworkConnector):
         gamedatadict = json.loads(client.receivemessage())
         print(tc.align_string("GameData received... Processing...", 3))
         write_to_json_files(gamedatadict)
+        print(tc.print_message("GameData is up to date!", "INFO"))
         input()
 
 
@@ -131,19 +132,21 @@ def combine_json_files(path: str="../GameData/"):
             with open(ident, "r") as file:
                 sendobj[ident] = json.loads(file.read())
     sendobj["$DIRLIST"] = FileHandler.loaddetailfromfile("MANIFEST.json", "$DIRLIST")
+    sendobj["$RECIPIENT"] = "ALL"
     sendstr = json.dumps(sendobj, ensure_ascii=False, sort_keys=True)
     return sendstr
 
 
-def write_to_json_files(filedict: dict):
+def write_to_json_files(datadict: dict):
     TempGen.cleargamedata()
     os.mkdir("../GameData")
-    for folder in filedict["$DIRLIST"]:
+    for folder in datadict["$DIRLIST"]:
         os.mkdir("../GameData/" + folder)
-    for key, value in filedict.items():
+    for key, value in datadict.items():
         if key[0] == ".":
             with open(key, "w") as file:
                 file.write(json.dumps(value, indent=2, ensure_ascii=False))
 
 
 blup = client_startup()
+dist_rec_game_files(blup)

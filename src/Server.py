@@ -35,6 +35,10 @@ class ServerNetworkConnector:
         self.start_client_thread.start()
 
     def acceptclients(self, nclients: int):
+        print("\n")
+        tc.create_infobox("Server-Info", "~", 3, False)
+        print("\n" + tc.align_string("Server-Address: ", 3) + self.host)
+        print(tc.align_string("Server-Port: ", 3) + str(self.port) + "\n\n")
         while len(self.conns) < nclients:
                 self.conn, self.addr = self.sock.accept()
                 self.conns.append(self.conn)
@@ -99,12 +103,6 @@ def main():
     # Start Server
     server = ServerNetworkConnector()
 
-    # Server-Info
-    print("\n")
-    tc.create_infobox("Server-Info", "~", 3, False)
-    print("\n" + tc.align_string("Server-Address: ", 3) + str(server.host))
-    print(tc.align_string("Server-Port: ", 3) + str(server.port) + "\n\n")
-
     # Waiting for clients
     while True:
         if len(server.conns) == server.nclients:
@@ -125,6 +123,8 @@ def main():
                         server.rev_fd_list()
                         server.dist_client_info()
                         server.cl_inf_broad = True
+                else:
+                    server.send(msgobj[0], msg["$RECIPIENT"])
             else:
                 server.relay(msgobj)
         except json.JSONDecodeError:

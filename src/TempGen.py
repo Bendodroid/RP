@@ -16,7 +16,6 @@ def cleargamedata(datapath="../GameData"):
         combilist = []
         for folder in dirlist:
             combilist.append(create_file_list(folder))
-        print(combilist)
         for filelist in combilist:
             for file in filelist:
                 os.remove(file)
