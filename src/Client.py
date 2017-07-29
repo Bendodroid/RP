@@ -9,6 +9,7 @@ from RP_Classes.Character import *
 from RP_Classes.Quest import *
 from RP_Classes.Item import *
 from RP_Classes.Storyitem import *
+from RP_Classes.Species import *
 
 
 client = client_startup()
