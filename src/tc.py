@@ -56,7 +56,7 @@ def print_warning(msg: str):
 
 
 def print_message(msg: str, label: str):
-    return str("\n   [" + label + "] " + msg + "\n")
+    return str("\n   [" + label + "] " + msg)
 
 
 def create_infobox(msg: str, border: str="~", position: int=5, clearterm: bool=False):
