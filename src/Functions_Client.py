@@ -26,7 +26,7 @@ class ClientNetworkConnector:
         self.real_name = input(tc.align_string("Enter your real name: ", 3))
         self.connect(self.host, self.port)
         print(tc.print_message("Connection successful!!!", "INFO"))
-        if input(tc.align_string("Are you the GameMaster [Y]es/[N]o ?: ", 3)).upper()[0] == "Y":
+        if input("\n" + tc.align_string("Are you the GameMaster [Y]es/[N]o ?: ", 3)).upper()[0] == "Y":
             self.gm = True
 
     def connect(self, host, port):
@@ -61,7 +61,7 @@ def client_startup():
         except json.JSONDecodeError:
             pass
 
-    print("\n", tc.align_string("All clients connected!", 3), "\n")
+    print("\n", tc.align_string("All clients connected!", 3))
     namedict = {
         "$NAME": client.real_name,
         "$GAMEMASTER": client.gm,
@@ -79,7 +79,7 @@ def client_startup():
     for key, value in peerinfo["name_fd_match"].items():
         client.peers.append(key)
     client.gm_peer = peerinfo["gamemaster"]
-    print(tc.print_message("Successful...", "INFO"))
+    print(tc.print_message("Successful!", "INFO"))
 
     if client.gm is True:
         basics = FileHandler.loadbasics()
@@ -88,9 +88,9 @@ def client_startup():
         input(tc.print_message("Press ENTER to reload...", "INFO"))
         reload_ui(basics=basics, client=client)
     elif client.gm is False:
-        print(tc.print_message("Waiting for basic information", "INFO"))
+        print(tc.print_message("Waiting for basic information...", "INFO"))
         basics = json.loads(client.receivemessage())
-        print(tc.print_message("Received basic Information", "INFO"))
+        print(tc.print_message("Received basic Information!", "INFO"))
         input(tc.print_message("Press ENTER to reload...", "INFO"))
         reload_ui(basics=basics, client=client)
 
@@ -110,15 +110,15 @@ def reload_ui(basics: dict, client: ClientNetworkConnector):
 
 def dist_rec_game_files(client: ClientNetworkConnector):
     if client.gm is True:
-        input("\n" + tc.align_string("Press ENTER to send GameData...", 3))
+        input("\n" + tc.print_message("Press ENTER to send GameData...", "INFO"))
         client.sendmessage(combine_json_files())
-        print(tc.align_string("GameData encoded and sent...", 3))
+        print(tc.print_message("GameData encoded and sent...", "INFO"))
         input()
 
     if client.gm is False:
-        print("\n" + tc.align_string("Waiting for GameData...", 3))
+        print("\n" + tc.print_message("Waiting for GameData...", "INFO"))
         gamedatadict = json.loads(client.receivemessage())
-        print(tc.align_string("GameData received... Processing...", 3))
+        print(tc.print_message("GameData received... Processing...", "INFO"))
         write_to_json_files(gamedatadict)
         print(tc.print_message("GameData is up to date!", "INFO"))
         input()
