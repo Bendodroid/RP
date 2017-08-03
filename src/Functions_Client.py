@@ -10,8 +10,6 @@ import os
 import tc
 import TempGen
 
-###
-
 
 class ClientNetworkConnector:
 
@@ -50,8 +48,11 @@ class ClientNetworkConnector:
 
 def client_startup():
     tc.create_header(text="RP-API by Bendodroid - Client Version", clearterm=True)
+    tc.set_term_title("RP-API - Client")
+
     client = ClientNetworkConnector()
-    print("\n", tc.align_string("Waiting for other Clients...", 3))
+
+    print(tc.print_message("Waiting for other Clients...", "INFO"))
     while True:
         msg = client.receivemessage()
         try:
@@ -61,7 +62,7 @@ def client_startup():
         except json.JSONDecodeError:
             pass
 
-    print("\n", tc.align_string("All clients connected!", 3))
+    print("\n", tc.print_message("All clients connected!", "INFO"))
     namedict = {
         "$NAME": client.real_name,
         "$GAMEMASTER": client.gm,
@@ -90,7 +91,7 @@ def client_startup():
     elif client.gm is False:
         print(tc.print_message("Waiting for basic information...", "INFO"))
         basics = json.loads(client.receivemessage())
-        print(tc.print_message("Received basic Information!", "INFO"))
+        print(tc.print_message("Received basic information!", "INFO"))
         input(tc.print_message("Press ENTER to reload...", "INFO"))
         reload_ui(basics=basics, client=client)
 
@@ -110,13 +111,13 @@ def reload_ui(basics: dict, client: ClientNetworkConnector):
 
 def dist_rec_game_files(client: ClientNetworkConnector):
     if client.gm is True:
-        input("\n" + tc.print_message("Press ENTER to send GameData...", "INFO"))
+        input(tc.print_message("Press ENTER to send GameData...", "INFO"))
         client.sendmessage(combine_json_files())
         print(tc.print_message("GameData encoded and sent...", "INFO"))
         input()
 
     if client.gm is False:
-        print("\n" + tc.print_message("Waiting for GameData...", "INFO"))
+        print(tc.print_message("Waiting for GameData...", "INFO"))
         gamedatadict = json.loads(client.receivemessage())
         print(tc.print_message("GameData received... Processing...", "INFO"))
         write_to_json_files(gamedatadict)

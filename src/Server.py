@@ -30,21 +30,25 @@ class ServerNetworkConnector:
         self.sock.listen(5)
         self.conns = []
         self.messageObjQueue = queue.Queue()
-        self.start_client_thread = threading.Thread(target=self.acceptclients(self.nclients))
+        self.start_client_thread = threading.Thread(target=self.acceptclients)
         self.start_client_thread.setDaemon(True)
         self.start_client_thread.start()
 
-    def acceptclients(self, nclients: int):
-        print("\n")
+    def acceptclients(self):
+        print("\n\n")
         tc.create_infobox("Server-Info", "~", 3, False)
         print("\n" + tc.align_string("Server-Address: ", 3) + self.host)
-        print(tc.align_string("Server-Port: ", 3) + str(self.port) + "\n\n")
-        while len(self.conns) < nclients:
+        print(tc.align_string("Server-Port: ", 3) + str(self.port) + "\n")
+        print(tc.print_message("Waiting for Clients to connect...", "INFO"))
+        while True:
+            if len(self.conns) < self.nclients:
                 self.conn, self.addr = self.sock.accept()
                 self.conns.append(self.conn)
                 self.start_receive_thread = threading.Thread(target=self.receive, args=(self.conn,))
                 self.start_receive_thread.setDaemon(True)
                 self.start_receive_thread.start()
+            else:
+                pass
 
     def receive(self, conn):
         while True:
@@ -99,6 +103,7 @@ class ServerNetworkConnector:
 def main():
     # Create header
     tc.create_header("RP-API by Bendodroid  -  Server Version", clearterm=True)
+    tc.set_term_title("RP-API - Server")
 
     # Start Server
     server = ServerNetworkConnector()
