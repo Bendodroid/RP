@@ -2,7 +2,8 @@
 
 # Copyright Bendodroid [2017]
 
+from RP_Classes.Characters import *
 
-class Species:
-    enable_roles = []
+
+class SubRole(Character):
     pass

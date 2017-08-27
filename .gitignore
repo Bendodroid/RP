@@ -1,4 +1,4 @@
 .idea/
 *.iml
 __pycache__/
-workspace.xml
+.idea/workspace.xml

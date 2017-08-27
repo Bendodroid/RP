@@ -3,13 +3,17 @@
 # Copyright Bendodroid [2017]
 
 
-class Character:
+from RP_Classes.Roles import *
 
-    current_level = int()
+
+class Character(Roles):
+
+    cur_lvl = int()
     std_hp = int()
     std_dmg = int()
     cur_hp = int()
     cur_dmg = int()
+    name = str()
 
     def heal(self, heal_hp):
         self.cur_hp += heal_hp

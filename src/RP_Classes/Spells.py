@@ -3,6 +3,8 @@
 # Copyright Bendodroid [2017]
 
 
-class Species:
-    enable_roles = []
+from RP_Classes.Items import *
+
+
+class Spell(Item):
     pass

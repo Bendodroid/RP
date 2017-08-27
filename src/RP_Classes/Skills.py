@@ -13,4 +13,4 @@ Skill-Types:
 
 class Skill:
 
-    skill_type = str()
+    skill_type = int()
