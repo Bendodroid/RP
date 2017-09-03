@@ -1,3 +1,4 @@
 .idea/
 *.iml
 SyncDesktop.sh
+.DS_STORE
