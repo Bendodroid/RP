@@ -15,7 +15,13 @@ from RP_Classes.Quests import *
 
 
 client = client_startup()
+FH.load_game_files()
 
-
-
-# FH.load_game_files()
+while True:
+    if client.gm:
+        reload_ui(basics=client.basics, client=client)
+        tc.print_message("Use [help] to get a list of commands", "INFO")
+        execute_command(command=input("   >: "))
+        input()
+    else:
+        pass

@@ -16,6 +16,7 @@ class ClientNetworkConnector:
     gm = False
     peers = []
     gm_peer = str()
+    basics = {}
 
     def __init__(self):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -63,14 +64,14 @@ def client_startup():
             pass
 
     print("\n", tc.print_message("All clients connected!", "INFO"))
+
+    # Send Info
     namedict = {
         "$NAME": client.real_name,
         "$GAMEMASTER": client.gm,
         "$RECIPIENT": "SERVER",
         "$TYPE": "FD_MATCH",
     }
-
-    # Send Info
     client.sendmessage(json.dumps(namedict))
 
     # Receive Info on other Clients
@@ -82,30 +83,30 @@ def client_startup():
     client.gm_peer = peerinfo["gamemaster"]
     print(tc.print_message("Successful!", "INFO"))
 
-    if client.gm is True:
+    if client.gm:
         basics = FileHandler.loadbasics()
         input(tc.print_message("Press ENTER to send basic information...", "INFO"))
         client.sendmessage(json.dumps(basics, ensure_ascii=False))
-        input(tc.print_message("Press ENTER to reload...", "INFO"))
-        reload_ui(basics=basics, client=client)
-    elif client.gm is False:
+    else:
         print(tc.print_message("Waiting for basic information...", "INFO"))
         basics = json.loads(client.receivemessage())
         print(tc.print_message("Received basic information!", "INFO"))
-        input(tc.print_message("Press ENTER to reload...", "INFO"))
-        reload_ui(basics=basics, client=client)
 
+    input(tc.print_message("Press ENTER to reload...", "INFO"))
+    client.basics = basics
+    reload_ui(client=client)
     dist_rec_game_files(client)
-
     return client
 
 
-def reload_ui(basics: dict, client: ClientNetworkConnector):
+def reload_ui(client: ClientNetworkConnector):
     if client.gm is True:
-        tc.create_header(text=basics["$RP_NAME"] + " by " + basics["$RP_AUTHOR"] + " - GameMaster", clearterm=True)
+        tc.create_header(text=client.basics["$RP_NAME"] + " by " + client.basics["$RP_AUTHOR"] + " - GameMaster",
+                         clearterm=True)
     else:
-        tc.create_header(text=basics["$RP_NAME"] + " by " + basics["$RP_AUTHOR"] + " - ClientVersion", clearterm=True)
-    if tc.set_term_title(basics["$RP_NAME"]) is False:
+        tc.create_header(text=client.basics["$RP_NAME"] + " by " + client.basics["$RP_AUTHOR"] + " - ClientVersion",
+                         clearterm=True)
+    if tc.set_term_title(client.basics["$RP_NAME"]) is False:
         tc.print_warning("Terminal title could not be set!")
 
 
@@ -114,7 +115,6 @@ def dist_rec_game_files(client: ClientNetworkConnector):
         input(tc.print_message("Press ENTER to send GameData...", "INFO"))
         client.sendmessage(combine_json_files())
         print(tc.print_message("GameData encoded and sent...", "INFO"))
-        input()
 
     if client.gm is False:
         print(tc.print_message("Waiting for GameData...", "INFO"))
@@ -122,7 +122,6 @@ def dist_rec_game_files(client: ClientNetworkConnector):
         print(tc.print_message("GameData received... Processing...", "INFO"))
         write_to_json_files(gamedatadict)
         print(tc.print_message("GameData is up to date!", "INFO"))
-        input()
 
 
 def combine_json_files(path: str="../GameData/"):
@@ -151,3 +150,7 @@ def write_to_json_files(datadict: dict):
         if key[0] == ".":
             with open(key, "w") as file:
                 file.write(json.dumps(value, indent=2, ensure_ascii=False))
+
+
+# def execute_command(command: str):
+#     if command.lower() == ""

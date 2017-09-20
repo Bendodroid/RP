@@ -11,6 +11,7 @@
     "08_Story",
     "09_Quests"
   ],
+  "$COMM_PROMPT": "   >: ",
   "$TEMP_INFO": {
     "$RP_NAME": "Just another RP",
     "$RP_AUTHOR": "a Person"

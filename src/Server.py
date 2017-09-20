@@ -40,15 +40,12 @@ class ServerNetworkConnector:
         print("\n" + tc.align_string("Server-Address: ", 3) + self.host)
         print(tc.align_string("Server-Port: ", 3) + str(self.port) + "\n")
         print(tc.print_message("Waiting for Clients to connect...", "INFO"))
-        while True:
-            if len(self.conns) < self.nclients:
-                self.conn, self.addr = self.sock.accept()
-                self.conns.append(self.conn)
-                self.start_receive_thread = threading.Thread(target=self.receive, args=(self.conn,))
-                self.start_receive_thread.setDaemon(True)
-                self.start_receive_thread.start()
-            else:
-                pass
+        while len(self.conns) < self.nclients:
+            self.conn, self.addr = self.sock.accept()
+            self.conns.append(self.conn)
+            self.start_receive_thread = threading.Thread(target=self.receive, args=(self.conn,))
+            self.start_receive_thread.setDaemon(True)
+            self.start_receive_thread.start()
 
     def receive(self, conn):
         while True:
