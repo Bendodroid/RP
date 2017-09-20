@@ -29,7 +29,3 @@ def loadbasics():
         obj = json.loads(f.read())
     obj["$RECIPIENT"] = "ALL"
     return obj
-
-
-def load_game_files():
-    pass

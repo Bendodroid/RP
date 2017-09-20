@@ -5,7 +5,7 @@
 
 import socket
 import json
-import FileHandler
+import FileHandler as FH
 import os
 import tc
 import TempGen
@@ -17,6 +17,7 @@ class ClientNetworkConnector:
     peers = []
     gm_peer = str()
     basics = {}
+    commands = []
 
     def __init__(self):
         self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -84,7 +85,7 @@ def client_startup():
     print(tc.print_message("Successful!", "INFO"))
 
     if client.gm:
-        basics = FileHandler.loadbasics()
+        basics = FH.loadbasics()
         input(tc.print_message("Press ENTER to send basic information...", "INFO"))
         client.sendmessage(json.dumps(basics, ensure_ascii=False))
     else:
@@ -95,7 +96,8 @@ def client_startup():
     input(tc.print_message("Press ENTER to reload...", "INFO"))
     client.basics = basics
     reload_ui(client=client)
-    dist_rec_game_files(client)
+    dist_rec_game_files(client=client)
+    load_commands(client=client)
     return client
 
 
@@ -127,7 +129,7 @@ def dist_rec_game_files(client: ClientNetworkConnector):
 def combine_json_files(path: str="../GameData/"):
     gamefiledict = {}
     for folder in os.listdir(path):
-        filelist = FileHandler.create_file_list(path + folder)
+        filelist = FH.create_file_list(path + folder)
         gamefiledict[folder] = filelist
     sendobj = {}
     for folder, filelist in gamefiledict.items():
@@ -135,7 +137,7 @@ def combine_json_files(path: str="../GameData/"):
             ident = path + folder + "/" + item
             with open(ident, "r") as file:
                 sendobj[ident] = json.loads(file.read())
-    sendobj["$DIRLIST"] = FileHandler.loaddetailfromfile("MANIFEST.json", "$DIRLIST")
+    sendobj["$DIRLIST"] = FH.loaddetailfromfile("MANIFEST.json", "$DIRLIST")
     sendobj["$RECIPIENT"] = "ALL"
     sendstr = json.dumps(sendobj, ensure_ascii=False, sort_keys=True)
     return sendstr
@@ -152,5 +154,13 @@ def write_to_json_files(datadict: dict):
                 file.write(json.dumps(value, indent=2, ensure_ascii=False))
 
 
-# def execute_command(command: str):
-#     if command.lower() == ""
+def load_commands(client: ClientNetworkConnector):
+    commands = FH.loaddetailfromfile("../GameData/01_General/MAIN.json", "$GM_COMMAND_LIST")
+    for pair in commands:
+        client.commands.append(Command(long_comm=pair[0], short_comm=pair[1]))
+    print(client.commands)
+
+
+def execute_command(command: str):
+    pass
+    #if command.lower() == ""
