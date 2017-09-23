@@ -1,7 +1,8 @@
 {
   "$RP_AUTHOR": "a Person",
   "$RP_NAME": "Just another RP",
-  "$GM_COMMAND_LIST": [
+  "$GM_COMMAND_LIST":
+  [
     ["Create Characters", "CC"],
     ["Create Battle", "CB"],
     ["Distribute Items", "DI"],
