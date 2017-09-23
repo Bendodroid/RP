@@ -10,6 +10,8 @@ import os
 import tc
 import TempGen
 
+from Command import *
+
 
 class ClientNetworkConnector:
 
@@ -161,6 +163,7 @@ def load_commands(client: ClientNetworkConnector):
     print(client.commands)
 
 
-def execute_command(command: str):
-    pass
-    #if command.lower() == ""
+def execute_command(prompt: str):
+    command = input(prompt)
+    print("Test")
+    # if command.lower() == ""

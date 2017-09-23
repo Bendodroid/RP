@@ -20,8 +20,7 @@ while True:
     if client.gm:
         reload_ui(client=client)
         tc.print_message("Use [help] to get a list of commands", "INFO")
-        execute_command(command=input(FH.loaddetailfromfile(file="./MANIFEST.json", identifier="$COMM_PROMPT")))
-        print("Test")
+        execute_command(prompt=input(FH.loaddetailfromfile(file="./MANIFEST.json", identifier="$COMM_PROMPT")))
         break
     else:
         pass
