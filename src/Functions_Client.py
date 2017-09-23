@@ -64,7 +64,7 @@ def client_startup():
         except json.JSONDecodeError:
             pass
 
-    print("\n", tc.print_message("All clients connected!", "INFO"))
+    print(tc.print_message("All clients connected!", "INFO"))
 
     # Send Info
     namedict = {
