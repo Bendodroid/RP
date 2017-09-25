@@ -10,8 +10,6 @@ import tc
 import TempGen
 import FileHandler as FH
 
-from Command import *
-
 
 class ClientNetworkConnector:
 
