@@ -10,6 +10,8 @@ import tc
 import TempGen
 import FileHandler as FH
 
+import Engine.EventLoop
+
 
 class ClientNetworkConnector:
 
@@ -20,7 +22,7 @@ class ClientNetworkConnector:
     commands = []
 
     def __init__(self):
-        self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.host = input(tc.align_string("Enter the IP Address of the Server: ", 3))
         self.port = int(input(tc.align_string("Enter the Port to connect to: ", 3)))
         self.real_name = input(tc.align_string("Enter your real name: ", 3))
@@ -30,18 +32,18 @@ class ClientNetworkConnector:
             self.gm = True
 
     def connect(self, host, port):
-        self.s.connect((host, port))
+        self.sock.connect((host, port))
 
     def disconnect(self):
-        self.s.close()
+        self.sock.close()
 
     def sendmessage(self, msg):
-        self.s.sendall(msg.encode("utf-8"))
+        self.sock.sendall(msg.encode("utf-8"))
 
     def receivemessage(self):
         msg = None
         while not msg:
-            msg = self.s.recv(1024).decode("utf-8")
+            msg = self.sock.recv(1024).decode("utf-8")
         return msg
 
     def dist_rec_game_files(self):
@@ -162,5 +164,6 @@ client = client_startup()
 while True:
     if client.gm:
         tc.print_message("Use [help] to get a list of commands", "INFO")
+        Engine.EventLoop.EventLoop.run()
     else:
         pass

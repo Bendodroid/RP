@@ -8,12 +8,17 @@
     "05_Items",
     "06_Spells",
     "07_Skills",
-    "08_Story",
-    "09_Quests"
+    "08_Quests"
   ],
   "$COMM_PROMPT": "   >: ",
   "$TEMP_INFO": {
     "$RP_NAME": "Just another RP",
-    "$RP_AUTHOR": "a Person"
+    "$RP_AUTHOR": "a Person",
+    "$GM_COMMAND_LIST": [
+      ["Create Characters", "CC"],
+      ["Create Battle", "CB"],
+      ["Distribute Items", "DI"],
+      ["Show Player Info", "SPI"]
+    ]
   }
 }
