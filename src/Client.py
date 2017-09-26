@@ -10,6 +10,8 @@ import tc
 import TempGen
 import FileHandler as FH
 
+import Engine.EventLoop
+
 
 class ClientNetworkConnector:
 
@@ -162,5 +164,6 @@ client = client_startup()
 while True:
     if client.gm:
         tc.print_message("Use [help] to get a list of commands", "INFO")
+        Engine.EventLoop.EventLoop.run()
     else:
         pass
