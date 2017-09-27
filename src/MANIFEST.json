@@ -8,7 +8,8 @@
     "05_Items",
     "06_Spells",
     "07_Skills",
-    "08_Quests"
+    "08_Quests",
+    "09_Locations"
   ],
   "$COMM_PROMPT": "   >: ",
   "$TEMP_INFO": {
@@ -19,6 +20,7 @@
       ["Create Battle", "CB"],
       ["Distribute Items", "DI"],
       ["Show Player Info", "SPI"]
-    ]
+    ],
+    "$TEXT": "You are under a Tree..."
   }
 }

@@ -4,6 +4,7 @@
 
 
 import Locations.Location
+
 # import locations.dungeon
 # import units.enemy
 
@@ -18,7 +19,9 @@ class LocationHandler:
                 return location
 
     @staticmethod
-    def create_location(name, connections = []):
+    def create_location(name, connections=None):
+        if connections is None:
+            connections = []
         location = Locations.Location.Location(name, connections)
         LocationHandler.locations.append(location)
         return location.location_id

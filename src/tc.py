@@ -52,7 +52,7 @@ def set_term_title(msg: str):
 
 
 def print_warning(msg: str):
-    print("\n   [WARNING]   " + msg + "\n")
+    return print_message(msg=msg, label="WARNING")
 
 
 def print_message(msg: str, label: str):
@@ -72,3 +72,9 @@ def create_infobox(msg: str, border: str="~", position: int=5, clearterm: bool=F
     print(lspace + upborder)
     print(lspace + mid)
     print(lspace + upborder)
+
+
+def reload_ui(basics: dict):
+    create_header(text=basics["$RP_NAME"] + " by " + basics["$RP_AUTHOR"], clearterm=True)
+    if set_term_title(basics["$RP_NAME"]) is False:
+        print_warning("Terminal title could not be set!")

@@ -33,7 +33,8 @@ def createtemplates(datapath="../GameData"):
     for i in arr:
         os.mkdir(datapath + "/" + i)
     for i in arr:
-        createfiletemplate(folder=i)
+        createfiletemplate(folder=i, content=json.dumps(loaddetailfromfile("./MANIFEST.json", "$TEMP_INFO"),
+                                                        indent=2, sort_keys=True))
     createfiletemplate("01_General", "MAIN.json",
                        json.dumps(loaddetailfromfile("./MANIFEST.json", "$TEMP_INFO"),
                                   indent=2, sort_keys=True))

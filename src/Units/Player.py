@@ -7,10 +7,9 @@ import Units.Unit
 import Engine.LocationHandler
 
 
-class Player(units.unit.Unit):
-
-    def __init__(self, *args):
-        super().__init__(*args)
+class Player(Units.Unit.Unit):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
         self.turn_ended = False
 
     def help(self):
@@ -19,17 +18,10 @@ class Player(units.unit.Unit):
             print(command.name)
 
     def attack(self, target):
-        target.health -= self.attack_damage
-        if target.health <= 0:
-            target.is_alive = False
-            print(target.kill_text())
-        if self.location.name == "dungeon":
-            self.location.connections.append(Engine.LocationHandler.LocationHandler.generate_dungeon())
-        else:
-            print("You attack the {} and do {} damage.".format(target.name, self.attack_damage))
+        pass
 
     def status(self):
-        status = "Health: " + self.health + "\n "
+        status = "Health: " + self.cur_health + "\n "
         print(status)
 
     def print_inventory(self):
