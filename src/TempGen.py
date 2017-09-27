@@ -5,14 +5,14 @@
 from FileHandler import *
 
 
-def createfiletemplate(folder, name="Test.json", content='{\n  "Key": "Value"\n}\n'):
-    with open("../GameData/" + folder + "/" + name, "w") as file:
+def createfiletemplate(folder, name="Test.json", content='{\n  "Key": "Value"\n}\n', datapath="../GameData"):
+    with open(datapath + "/" + folder + "/" + name, "w") as file:
         file.write(content)
 
 
 def cleargamedata(datapath="../GameData"):
     if os.name == "posix":
-        os.system("rm -r ../GameData/")
+        os.system("rm -r " + datapath + "/")
     else:
         dirlist = os.listdir(datapath)
         combilist = []
@@ -23,15 +23,15 @@ def cleargamedata(datapath="../GameData"):
                 os.remove(file)
 
 
-def createtemplates():
+def createtemplates(datapath="../GameData"):
     arr = loaddetailfromfile("./MANIFEST.json", "$DIRLIST")
     try:
         cleargamedata()
     except OSError:
         pass
-    os.mkdir("../GameData")
+    os.mkdir(datapath)
     for i in arr:
-        os.mkdir("../GameData/" + i)
+        os.mkdir(datapath + "/" + i)
     for i in arr:
         createfiletemplate(folder=i)
     createfiletemplate("01_General", "MAIN.json",
