@@ -9,7 +9,7 @@ import Engine.Command
 class Location:
     location_id = 0
     location_count = 0
-    available_commands = [engine.command.Help(), engine.command.Walk()]
+    available_commands = [engine.command.Help()]
 
     def __init__(self, name, connections = []):
         self.location_id = Location.location_count

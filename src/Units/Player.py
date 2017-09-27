@@ -8,6 +8,7 @@ import Engine.LocationHandler
 
 
 class Player(units.unit.Unit):
+
     def __init__(self, *args):
         super().__init__(*args)
         self.turn_ended = False

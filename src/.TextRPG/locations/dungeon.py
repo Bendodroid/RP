@@ -3,7 +3,7 @@ import engine.command
 
 class Dungeon(locations.location.Location):
   def __init__(self, name, enemy):
-    super().__init__("dungeon", []) 
+    super().__init__("dungeon", [])
     self.enemy = enemy
 
   def update_unit(self, unit):

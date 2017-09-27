@@ -4,6 +4,7 @@
 
 
 import Units.Player
+import Units.GameMaster
 
 
 class Command():
@@ -16,6 +17,10 @@ class Command():
   def __str__(self):
     return self.name
 
+
+class DistributeItems(Command):
+    def __init__(self):
+        super().__init__(name="di", ends_turn=False, func=Units.GameMaster.GameMaster.distribute_items)
 
 # class Help(Command):
 #   def __init__(self):
