@@ -7,7 +7,7 @@ import Units.Player
 import Locations.Start
 import tc
 
-import FileHandler as FH
+import File_Handler as FH
 
 
 class EventLoop:
@@ -20,7 +20,7 @@ class EventLoop:
         new_or_load = input(tc.align_string("[S]tart a new game or [L]oad an old one?: ", 5))
         if new_or_load[0].lower() == "s":
             player = Units.Player.Player(name="Test", level=1, max_health=100, max_attack_dmg=100,
-                                         inventory=[], location=None, is_alive=True)
+                                         inv=[], armor_inv=[], location=None, is_alive=True)
             player.location = Locations.Start.Start(name="start")
 
             while player.is_alive:

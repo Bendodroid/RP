@@ -24,6 +24,5 @@ class Location:
     def update_unit(self, unit):
         raise NotImplementedError()
 
-    @staticmethod
-    def available_commands():
+    def available_commands(self):
         return [Engine.Command.Help()]

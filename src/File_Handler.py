@@ -29,5 +29,4 @@ def createjsonfile(file: str, obj: dict):
 def loadbasics():
     with open("../GameData/01_General/MAIN.json", "r") as f:
         obj = json.loads(f.read())
-    obj["$RECIPIENT"] = "ALL"
     return obj

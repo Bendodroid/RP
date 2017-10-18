@@ -21,7 +21,7 @@ class Player(Units.Unit.Unit):
         pass
 
     def status(self):
-        status = "Health: " + self.cur_health + "\n "
+        status = "Health: " + str(self.cur_health) + "\n "
         print(status)
 
     def print_inventory(self):
@@ -33,7 +33,7 @@ class Player(Units.Unit.Unit):
     def walk(self):
         msg = "Locations you can go to from here:\n"
         for location_id in self.location.connections:
-            msg += engine.location_handler.LocationHandler.get_location_by_id(location_id).name + "\n"
+            msg += Engine.LocationHandler.LocationHandler.get_location_by_id(location_id).name + "\n"
         print(msg)
 
         location_name = input("Where do you want to go? ").lower()

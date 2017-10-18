@@ -2,7 +2,7 @@
 
 # Copyright Bendodroid [2017]
 
-from FileHandler import *
+from File_Handler import *
 
 
 def createfiletemplate(folder, name="Test.json", content='{\n  "Key": "Value"\n}\n', datapath="../GameData"):

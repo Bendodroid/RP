@@ -3,7 +3,8 @@
 # Copyright Bendodroid [2017]
 
 import Locations.Location
-import FileHandler as FH
+import Engine.Command
+import File_Handler as FH
 
 
 class Start(Locations.Location.Location):
@@ -16,3 +17,6 @@ class Start(Locations.Location.Location):
 
     def update_unit(self, unit):
         pass
+
+    def available_commands(self):
+        return super().available_commands() + [Engine.Command.Status()]
