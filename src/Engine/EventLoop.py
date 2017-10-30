@@ -23,7 +23,7 @@ class EventLoop:
             player = Units.Player.Player(name="Test", level=1, max_health=100, max_attack_dmg=100,
                                          inv=[], armor_inv=[], location=None, is_alive=True)
             Engine.LocationHandler.LocationHandler.generate_world()
-            
+
             # player.location = Locations.Start.Start(name="start")
             #
             # while player.is_alive:
