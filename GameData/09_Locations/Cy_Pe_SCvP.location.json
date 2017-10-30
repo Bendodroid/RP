@@ -1,0 +1,15 @@
+{
+  "$NAME": "Südlicher Checkpoint von Perbass",
+  "$VISIBLE": true,
+  "$DESCRIPTION": "Keine Falsche Bewegung.",
+  "$REGION": "Cyrodil",
+  "$COUNTY": "Perbass",
+  "$ENABLE_COMMANDS": "Engine.Command.Help",
+  "$ENABLE_LOCATIONS": [],
+  "$CONNECTIONS": [
+    "Cy_Me_Rivore.location.json"
+    "Cy_Pe_Perbass.location.json"
+  ],
+  "$UNITS": [],
+  "$NOTES": ""
+}

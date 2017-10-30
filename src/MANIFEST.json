@@ -1,5 +1,5 @@
 {
-  "$DATAPATH": "../GameData",
+  "$DATAPATH": "../GameData/",
   "$DIRLIST": [
     "01_General",
     "02_Species",

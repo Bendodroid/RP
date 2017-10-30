@@ -1,0 +1,18 @@
+{
+  "$NAME": "Perbass",
+  "$VISIBLE": true,
+  "$DESCRIPTION": "Willkommen in der Hauptstadt von Cyrodil.",
+  "$REGION": "Cyrodil",
+  "$COUNTY": "Perbass",
+  "$ENABLE_COMMANDS": "Engine.Command.Help",
+  "$ENABLE_LOCATIONS": [],
+  "$CONNECTIONS": [
+    "Cy_Pe_SCvP.location.json",
+    "Cy_Pe_ZCvP.location.json",
+    "Cy_Pe_SWCvP.location.json",
+    "Cy_Pe_NCvP.location.json",
+    "Cy_Pe_NOCvP.location.json"
+  ],
+  "$UNITS": [],
+  "$NOTES": ""
+}
