@@ -1,0 +1,12 @@
+{
+  "$NAME": "",
+  "$VISIBLE": true,
+  "$DESCRIPTION": "",
+  "$REGION": "",
+  "$COUNTY": "",
+  "$ENABLE_COMMANDS": "Engine.Command.Help",
+  "$ENABLE_LOCATIONS": [],
+  "$CONNECTIONS": [],
+  "$UNITS": [],
+  "$NOTES": ""
+}

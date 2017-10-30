@@ -1,0 +1,15 @@
+{
+  "$NAME": "Tendrassil",
+  "$VISIBLE": true,
+  "$DESCRIPTION": "Du bist am Baum Tendrassil, Schöpfer von Estorra.",
+  "$REGION": "Cyrodil",
+  "$COUNTY": "Tendrassil",
+  "$ENABLE_COMMANDS": "Engine.Command.Help",
+  "$ENABLE_LOCATIONS": [],
+  "$CONNECTIONS": [
+    "Cy_Te_01_Mailbox.location.json",
+    "Cy_Me_Rivore.location.json"
+  ],
+  "$UNITS": [],
+  "$NOTES": ""
+}

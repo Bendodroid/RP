@@ -1,0 +1,14 @@
+{
+  "$NAME": "Mailbox",
+  "$VISIBLE": true,
+  "$DESCRIPTION": "Die Briefkästen am Baum Tendrassil",
+  "$REGION": "Cyrodil",
+  "$COUNTY": "Tendrassil",
+  "$ENABLE_COMMANDS": "Engine.Command.Help",
+  "$ENABLE_LOCATIONS": [],
+  "$CONNECTIONS": [
+    "Cy_Te_Tendrassil.location.json"
+  ],
+  "$UNITS": [],
+  "$NOTES": ""
+}

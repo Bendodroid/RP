@@ -5,8 +5,9 @@
 
 import Units.Player
 import Locations.Start
-import tc
+import Engine.LocationHandler
 
+import tc
 import File_Handler as FH
 
 
@@ -21,6 +22,8 @@ class EventLoop:
         if new_or_load[0].lower() == "s":
             player = Units.Player.Player(name="Test", level=1, max_health=100, max_attack_dmg=100,
                                          inv=[], armor_inv=[], location=None, is_alive=True)
+            Engine.LocationHandler.LocationHandler.generate_world()
+
             player.location = Locations.Start.Start(name="start")
 
             while player.is_alive:

@@ -4,6 +4,8 @@
 
 
 import Locations.Location
+import File_Handler as FH
+
 
 # import locations.dungeon
 # import units.enemy
@@ -32,3 +34,9 @@ class LocationHandler:
     #     dungeon.enemy.location = dungeon
     #     LocationHandler.locations.append(dungeon)
     #     return dungeon.location_id
+
+    @staticmethod
+    def generate_world():
+        filelist = FH.create_file_list("../GameData/09_Locations/")
+        print(filelist)
+        # TODO: Klassen für Dorf, Postbox etc., je nach Info in JSON erstellen

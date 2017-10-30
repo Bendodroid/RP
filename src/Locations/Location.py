@@ -18,11 +18,11 @@ class Location:
         self.name = name
         self.connections = connections
 
-    def text(self):
-        raise NotImplementedError()
+    # def text(self):
+    #     raise NotImplementedError()
 
-    def update_unit(self, unit):
-        raise NotImplementedError()
+    # def update_unit(self, unit):
+    #     raise NotImplementedError()
 
-    def available_commands(self):
-        return [Engine.Command.Help()]
+    # def available_commands(self):
+    #     return [Engine.Command.Help()]
