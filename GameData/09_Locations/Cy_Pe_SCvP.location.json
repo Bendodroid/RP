@@ -7,9 +7,8 @@
   "$ENABLE_COMMANDS": "Engine.Command.Help",
   "$ENABLE_LOCATIONS": [],
   "$CONNECTIONS": [
-    "Cy_Me_Rivore.location.json"
-    "Cy_Pe_Perbass.location.json"
-  ],
+    "Cy_Me_Rivore.location.json",
+    "Cy_Pe_Perbass.location.json"],
   "$UNITS": [],
   "$NOTES": ""
 }

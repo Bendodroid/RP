@@ -1,5 +1,6 @@
-# Terminal-Convenience-functions
+#!/usr/bin/env python3.5
 
+# Copyright Bendodroid [2017]
 
 import os
 import sys

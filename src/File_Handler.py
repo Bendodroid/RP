@@ -15,7 +15,7 @@ def create_file_list(path: str):
     return filelist
 
 
-def loaddetailfromfile(file: str, identifier: str):
+def load_detail(file: str, identifier: str):
     with open(file, "r") as f:
         obj = json.loads(f.read())
         return obj[identifier]

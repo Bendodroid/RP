@@ -12,8 +12,9 @@ class Start(Locations.Location.Location):
         super().__init__(**args)
         print(self.text())
 
+    @staticmethod
     def text(self):
-        return FH.loaddetailfromfile(file="../GameData/09_Locations/Start.json", identifier="$TEXT")
+        return FH.load_detail(file="../GameData/09_Locations/Start.json", identifier="$TEXT")
 
     def update_unit(self, unit):
         pass

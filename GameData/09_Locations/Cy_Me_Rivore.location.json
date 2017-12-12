@@ -8,8 +8,7 @@
   "$ENABLE_LOCATIONS": [],
   "$CONNECTIONS": [
     "Cy_Pe_SCvP.location.json",
-    "Cy_Te_Tendrassil.location.json"
-  ],
+    "Cy_Te_Tendrassil.location.json"],
   "$UNITS": [],
   "$NOTES": ""
 }

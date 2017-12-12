@@ -3,9 +3,9 @@
 # Copyright Bendodroid [2017]
 
 
-import Units.Player
+import Units.Player as Units
 import Locations.Start
-import Engine.LocationHandler
+import Engine.LocationHandler as Engine
 
 import tc
 import File_Handler as FH
@@ -14,15 +14,18 @@ import File_Handler as FH
 class EventLoop:
     def __init__(self):
         self.game_ended = False
-        self.comm_prompt = FH.loaddetailfromfile(file="./MANIFEST.json", identifier="$COMM_PROMPT")
+        self.comm_prompt = FH.load_detail(file="./MANIFEST.json", identifier="$COMM_PROMPT")
+        # Update LocationHandler
+        Engine.LocationHandler.update_Handler()
 
     def run(self):
         # Start fresh or load saved game
         new_or_load = input(tc.align_string("[S]tart a new game or [L]oad an old one?: ", 5))
         if new_or_load[0].lower() == "s":
-            player = Units.Player.Player(name="Test", level=1, max_health=100, max_attack_dmg=100,
-                                         inv=[], armor_inv=[], location=None, is_alive=True)
-            Engine.LocationHandler.LocationHandler.generate_world()
+            player = Units.Player(name="Test", level=1, max_health=100, max_attack_dmg=100,
+                                  inv=[], armor_inv=[], location=None, is_alive=True)
+
+            Engine.LocationHandler.generate_world() # Now working, I think... Some Jsons are missing!
 
             # player.location = Locations.Start.Start(name="start")
             #

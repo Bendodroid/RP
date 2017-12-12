@@ -1,6 +1,8 @@
 {
   "$DATAPATH": "../GameData/",
-  "$DIRLIST": [
+  "$DATAPATH_LOCATIONS": "09_Locations/",
+  "$DIRLIST":
+  [
     "01_General",
     "02_Species",
     "03_Roles",
@@ -11,16 +13,5 @@
     "08_Quests",
     "09_Locations"
   ],
-  "$COMM_PROMPT": "   >: ",
-  "$TEMP_INFO": {
-    "$RP_NAME": "Just another RP",
-    "$RP_AUTHOR": "a Person",
-    "$GM_COMMAND_LIST": [
-      ["Create Characters", "CC"],
-      ["Create Battle", "CB"],
-      ["Distribute Items", "DI"],
-      ["Show Player Info", "SPI"]
-    ],
-    "$TEXT": "You are under a Tree..."
-  }
+  "$COMM_PROMPT": "   >: "
 }

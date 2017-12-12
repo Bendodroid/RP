@@ -9,14 +9,24 @@ class Location:
     location_id = 0
     location_count = 0
 
-    def __init__(self, name, connections=None):
-        if connections is None:
-            connections = []
+    def __init__(self, name: str, visible: bool, description: str, region: str,
+                 county: str, enable_commands: list, enable_locations: list,
+                 connections: list, corr_file: str):
         self.location_id = Location.location_count
-        Location.location_count = Location.location_count + 1
+        Location.location_count += 1
 
         self.name = name
+        self.visible = visible
+        self.description = description
+        self.region = region
+        self.county = county
+        self.enable_commands = enable_commands
+        self.enable_locations = enable_locations
         self.connections = connections
+        self.corr_file = corr_file
+
+    def get_Location_ID(self):
+        return self.location_id
 
     # def text(self):
     #     raise NotImplementedError()
@@ -24,5 +34,5 @@ class Location:
     # def update_unit(self, unit):
     #     raise NotImplementedError()
 
-    # def available_commands(self):
-    #     return [Engine.Command.Help()]
+    def available_commands(self):
+        return [Engine.Command.Help()]

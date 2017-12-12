@@ -8,8 +8,7 @@
   "$ENABLE_LOCATIONS": [],
   "$CONNECTIONS": [
     "Cy_Te_01_Mailbox.location.json",
-    "Cy_Me_Rivore.location.json"
-  ],
+    "Cy_Me_Rivore.location.json"],
   "$UNITS": [],
   "$NOTES": ""
 }

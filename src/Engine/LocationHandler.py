@@ -14,8 +14,13 @@ import File_Handler as FH
 
 class LocationHandler:
     locations = []
-    filelist = []
-    datapath = FH.loaddetailfromfile(file="MANIFEST.json", identifier="$DATAPATH") + "09_Locations/"
+
+    @staticmethod
+    def update_Handler():
+        root_path = FH.load_detail(file="MANIFEST.json", identifier="$DATAPATH")
+        loc_path = FH.load_detail(file="MANIFEST.json", identifier="$DATAPATH_LOCATIONS")
+        LocationHandler.datapath = root_path + loc_path
+        LocationHandler.loc_filelist = FH.create_file_list(LocationHandler.datapath)
 
     @staticmethod
     def get_location_by_id(location_id):
@@ -24,10 +29,8 @@ class LocationHandler:
                 return location
 
     @staticmethod
-    def create_location(name, connections=None):
-        if connections is None:
-            connections = []
-        location = Locations.Location.Location(name, connections)
+    def create_location(*args):
+        location = Locations.Location.Location(*args)
         LocationHandler.locations.append(location)
         return location.location_id
 
@@ -40,9 +43,24 @@ class LocationHandler:
 
     @staticmethod
     def generate_world():
-        LocationHandler.filelist = FH.create_file_list("../GameData/09_Locations/")
-        print(LocationHandler.filelist)
-        with open(LocationHandler.datapath + "Cy_Te_Tendrassil.location.json", mode="r") as f:
-            locobj = json.loads(f.read())
-        print (locobj)
-        # TODO: Klassen für Dorf, Postbox etc., je nach Info in JSON erstellen
+        print(LocationHandler.loc_filelist)
+        # Generate Location-Objects
+        for foo in LocationHandler.loc_filelist:
+            print(foo)
+            with open(LocationHandler.datapath + foo, mode="r") as f:
+                locobj = json.loads(f.read())
+            LocationHandler.create_location(locobj["$NAME"], locobj["$VISIBLE"], locobj["$DESCRIPTION"],
+                                            locobj["$REGION"], locobj["$COUNTY"], locobj["$ENABLE_COMMANDS"],
+                                            locobj["$ENABLE_LOCATIONS"], locobj["$CONNECTIONS"], foo)
+
+        # Update Connections
+        for locobj in LocationHandler.locations:
+            for conn_str in locobj.connections:
+                for connobj in LocationHandler.locations:
+                    if connobj.corr_file == conn_str:
+                        locobj.connections[locobj.connections.index(conn_str)] = connobj.get_Location_ID()
+
+        # Debug Connections
+        # for i in LocationHandler.locations:
+        #     for j in i.connections:
+        #         print(i.corr_file, " : ", j)
