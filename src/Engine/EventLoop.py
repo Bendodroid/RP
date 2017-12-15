@@ -1,10 +1,10 @@
-#!/usr/bin/env python3.5
+#!/usr/bin/env python3.6
 
 # Copyright Bendodroid [2017]
 
 
 import Units.Player as Units
-import Locations.Start
+import Locations.Start as Locations
 import Engine.LocationHandler as Engine
 
 import tc
@@ -25,10 +25,11 @@ class EventLoop:
             player = Units.Player(name="Test", level=1, max_health=100, max_attack_dmg=100,
                                   inv=[], armor_inv=[], location=None, is_alive=True)
 
-            Engine.LocationHandler.generate_world() # Now working, I think... Some Jsons are missing!
+            Engine.LocationHandler.generate_world()  # Now working I think... Some Jsons are missing!
 
-            # player.location = Locations.Start.Start(name="start")
-            #
+            Engine.LocationHandler.place_player_start()
+
+
             # while player.is_alive:
             #     player.location.update_unit(player)
             #     player.turn_ended = False

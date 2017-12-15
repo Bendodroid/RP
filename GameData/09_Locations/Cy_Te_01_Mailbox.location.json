@@ -1,7 +1,7 @@
 {
   "$NAME": "Mailbox",
   "$VISIBLE": true,
-  "$DESCRIPTION": "Die Briefkästen am Baum Tendrassil",
+  "$DESCRIPTION": "Du bist bei den 1000 Briefkästen am Baum Tendrassil",
   "$REGION": "Cyrodil",
   "$COUNTY": "Tendrassil",
   "$ENABLE_COMMANDS": "Engine.Command.Help",

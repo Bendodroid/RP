@@ -1,13 +1,14 @@
-#!/usr/bin/env python3.5
+#!/usr/bin/env python3.6
 
 # Copyright Bendodroid [2017]
 
 
-import Units.Unit
-import Engine.LocationHandler
+import Units.Unit as Units
+import Engine.LocationHandler as Engine
 
 
-class Player(Units.Unit.Unit):
+class Player(Units.Unit):
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.turn_ended = False
@@ -33,12 +34,12 @@ class Player(Units.Unit.Unit):
     def walk(self):
         msg = "Locations you can go to from here:\n"
         for location_id in self.location.connections:
-            msg += Engine.LocationHandler.LocationHandler.get_location_by_id(location_id).name + "\n"
+            msg += Engine.LocationHandler.get_location_by_id(location_id).name + "\n"
         print(msg)
 
         location_name = input("Where do you want to go? ").lower()
         for location_id in self.location.connections:
-            location = Engine.LocationHandler.LocationHandler.get_location_by_id(location_id)
+            location = Engine.LocationHandler.get_location_by_id(location_id)
             if location_name == location.name:
                 self.location = location
                 print(location.text())

@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.5
+#!/usr/bin/env python3.6
 
 # Copyright Bendodroid [2017]
 
@@ -25,14 +25,15 @@ class Location:
         self.connections = connections
         self.corr_file = corr_file
 
-    def get_Location_ID(self):
+    def get_location_id(self):
         return self.location_id
 
-    # def text(self):
-    #     raise NotImplementedError()
+    @staticmethod
+    def get_description():
+        raise NotImplementedError()
 
-    # def update_unit(self, unit):
-    #     raise NotImplementedError()
+    def update_unit(self, unit):
+        raise NotImplementedError()
 
     def available_commands(self):
         return [Engine.Command.Help()]
