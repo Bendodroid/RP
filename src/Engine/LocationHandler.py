@@ -1,11 +1,13 @@
-#!/usr/bin/env python3.5
+#!/usr/bin/env python3.6
 
 # Copyright Bendodroid [2017]
 
 
 import json
+import typing
 
-import Locations.Location
+import Locations.Location as Locations
+# import Units.Player as Units
 import File_Handler as FH
 
 # import locations.dungeon
@@ -13,7 +15,10 @@ import File_Handler as FH
 
 
 class LocationHandler:
-    locations = []
+    locations: typing.List[Locations.Location] = []
+    datapath: typing.AnyStr = ""
+    loc_filelist: typing.List = []
+    start_loc: typing.AnyStr = ""
 
     @staticmethod
     def update_Handler():
@@ -21,6 +26,7 @@ class LocationHandler:
         loc_path = FH.load_detail(file="MANIFEST.json", identifier="$DATAPATH_LOCATIONS")
         LocationHandler.datapath = root_path + loc_path
         LocationHandler.loc_filelist = FH.create_file_list(LocationHandler.datapath)
+        LocationHandler.start_loc = FH.load_detail(file="MANIFEST.json", identifier="$START_LOC")
 
     @staticmethod
     def get_location_by_id(location_id):
@@ -30,7 +36,7 @@ class LocationHandler:
 
     @staticmethod
     def create_location(*args):
-        location = Locations.Location.Location(*args)
+        location = Locations.Location(*args)
         LocationHandler.locations.append(location)
         return location.location_id
 
@@ -58,9 +64,15 @@ class LocationHandler:
             for conn_str in locobj.connections:
                 for connobj in LocationHandler.locations:
                     if connobj.corr_file == conn_str:
-                        locobj.connections[locobj.connections.index(conn_str)] = connobj.get_Location_ID()
+                        locobj.connections[locobj.connections.index(conn_str)] = connobj.get_location_id()
 
         # Debug Connections
-        # for i in LocationHandler.locations:
-        #     for j in i.connections:
-        #         print(i.corr_file, " : ", j)
+        for i in LocationHandler.locations:
+            for j in i.connections:
+                print(i.corr_file, " : ", j)
+
+    @staticmethod
+    def place_player_start(playerobj):
+        for loc in LocationHandler.locations:
+            if loc.corr_file == LocationHandler.start_loc:
+                playerobj.location = loc

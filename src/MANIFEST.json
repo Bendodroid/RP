@@ -1,6 +1,7 @@
 {
   "$DATAPATH": "../GameData/",
   "$DATAPATH_LOCATIONS": "09_Locations/",
+  "$START_LOC": "Cy_Te_Tendrassil.location.json",
   "$DIRLIST":
   [
     "01_General",
